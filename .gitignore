@@ -17,3 +17,11 @@ shlxthdl/
 *.pyd
 LICENSE
 NOTICE
+*.iml
+mailmerge.py
+*.pyc
+unohelper.py
+officehelper.py
+pythonloader.py
+pythonscript.py
+uno.py
