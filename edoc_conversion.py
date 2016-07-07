@@ -2,15 +2,10 @@ import os
 import sys
 import traceback
 
-os.environ['PATH'] = os.environ['PATH'] + ";" + os.path.dirname(os.path.abspath(__file__))
-#os.environ['UNO_PATH'] = os.path.abspath(__file__)
-#os.environ['URE_BOOTSTRAP'] = os.path.join(os.path.dirname(__file__), "fundamental.ini")
 os.environ['PYSCRIPT_LOG_ENV'] = 'DEBUG'
-
-#print(os.environ['URE_BOOTSTRAP'])
-#print(os.environ['UNO_PATH'])
 print(os.environ['PYSCRIPT_LOG_ENV'])
 
+import pyuno
 import uno
 from com.sun.star.beans import PropertyValue
 from unohelper import Base, systemPathToFileUrl, absolutize
@@ -45,15 +40,15 @@ def main():
     smgr = context.ServiceManager
     resolver = smgr.createInstanceWithContext("com.sun.star.bridge.UnoUrlResolver", context)
     ctx = resolver.resolve(url)
-    smgr = ctx.ServiceManager
-    desktop = smgr.createInstanceWithContext("com.sun.star.frame.Desktop", ctx)
+
+    desktop = ctx.ServiceManager.createInstanceWithContext("com.sun.star.frame.Desktop", ctx)
 
     in_props = PropertyValue()
     in_props.Name = "Hidden"
-    in_props.Value = False
+    in_props.Value = True
     file_url = systemPathToFileUrl(os.path.realpath(in_path))
     try:
-        doc = desktop.loadComponentFromUrl(file_url, "_blank", 0, tuple(in_props))
+        doc = desktop.loadComponentFromURL(file_url, "_blank", 0, tuple([in_props]))
 
 
         out_props = [PropertyValue() for i in range(2)]
@@ -63,7 +58,7 @@ def main():
         out_props[1].Value = export_format
 
         out_url = systemPathToFileUrl(out_path)
-        doc.storeToUrl(out_url, tuple(out_props))
+        doc.storeToURL(out_url, tuple(out_props))
         doc.dispose()
 
     except AttributeError:
