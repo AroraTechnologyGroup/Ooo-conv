@@ -1,10 +1,6 @@
 import os
 import sys
 import traceback
-
-os.environ['PYSCRIPT_LOG_ENV'] = 'DEBUG'
-print(os.environ['PYSCRIPT_LOG_ENV'])
-
 import pyuno
 import uno
 from com.sun.star.beans import PropertyValue
